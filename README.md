@@ -1,5 +1,8 @@
 # Safer Rancher
-Backup script for rancher written in GO. Currently, Safer Rancher will backup the Rancher's MySQL database and all the PostgreSQL instances managed by Rancher. The host hosting the Rancher server must be added to the Rancher's hosts.
+Backup script for rancher written in GO. Currently, Safer Rancher will backup the Rancher's MySQL database and all the PostgreSQL instances managed by Rancher. The host hosting the Rancher server must be added to the Rancher's hosts. There are 3 ways of using this script: from our rancher catalog, with docker, or using the binary program.
+
+## Usage with our catalog (prefered)
+The easiest way of using Safer Rancher is to install it from our catalog. You can find the install instructions on the [catalog's repository](https://github.com/weyield/weyield-rancher-catalog).
 
 ## Usage with Docker
 The Docker image is built automatically by Docker Hub. You can use it like this:
@@ -24,3 +27,5 @@ For example, you can run:
 ```
 BACKUP_ROOT="/root/backup" RANCHER_URL="https://xxx/v2-beta" RANCHER_ACCESS_KEY="XXX" RANCHER_SECRET_KEY="XxXxXx" ./safer-rancher
 ```
+
+Copyright (c) 2017 WeYield
