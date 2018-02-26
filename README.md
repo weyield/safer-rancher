@@ -28,4 +28,9 @@ For example, you can run:
 BACKUP_ROOT="/root/backup" RANCHER_URL="https://xxx/v2-beta" RANCHER_ACCESS_KEY="XXX" RANCHER_SECRET_KEY="XxXxXx" ./safer-rancher
 ```
 
+The following optional environment variables can be used too:
+* `ACTIVATE_RANCHER_DATABASE`: Skip the backup of the Rancher's MySQL database when false (default is true)
+* `ACTIVATE_POSTGRES_DATABASE`: Skip the backup of PostgreSQL databases when false (default is true)
+
+
 Copyright (c) 2017 WeYield
