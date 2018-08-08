@@ -81,8 +81,10 @@ func (r *Rancher) getPostgresServices() ([]*RancherServiceInfo, error) {
 				if err != nil {
 					return nil, err
 				}
-				pgService := RancherServiceInfo{service.Id, service.Name, strings.Replace(service.LaunchConfig.ImageUuid, "docker:", "", 1), hostname}
-				pgServices = append(pgServices, &pgService)
+				if service.Name != "pecdb" {
+					pgService := RancherServiceInfo{service.Id, service.Name, strings.Replace(service.LaunchConfig.ImageUuid, "docker:", "", 1), hostname}
+					pgServices = append(pgServices, &pgService)
+				}
 			}
 		}
 	}
