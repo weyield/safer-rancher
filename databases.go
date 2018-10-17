@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/docker/docker/client"
-	"github.com/docker/docker/api/types"
-	"github.com/docker/docker/api/types/container"
-	"golang.org/x/net/context"
 	"io"
 	"io/ioutil"
 	"os"
 	"strings"
+
+	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/container"
+	"github.com/docker/docker/client"
+	"golang.org/x/net/context"
 )
 
 type dumpError struct {
@@ -42,15 +43,15 @@ func makeDump(dumpCommand string, backupPath string, dockerImage string, links [
 	// Sleep 5 seconds in order to let rancher configure the network
 
 	containerConfig := &container.Config{
-		Image: dockerImage,
-		Cmd:   newDumpCommand,
+		Image:  dockerImage,
+		Cmd:    newDumpCommand,
 		Labels: map[string]string{"io.rancher.container.network": "true"},
 	}
 
 	hostConfig := &container.HostConfig{
 		AutoRemove: true,
-		Binds: []string{backupPath+":/backup"},
-		Links: links,
+		Binds:      []string{backupPath + ":/backup"},
+		Links:      links,
 	}
 
 	resp, err := cli.ContainerCreate(ctx, containerConfig, hostConfig, nil, "")
@@ -74,7 +75,7 @@ func makeDump(dumpCommand string, backupPath string, dockerImage string, links [
 	}
 	io.Copy(os.Stdout, out)
 
-	statusCode := <- statusCodeChan
+	statusCode := <-statusCodeChan
 	if statusCode.StatusCode != 0 {
 		return dumpError{dockerImage, strings.Join(newDumpCommand, " ")}
 	}
@@ -82,9 +83,8 @@ func makeDump(dumpCommand string, backupPath string, dockerImage string, links [
 	return nil
 }
 
-func dumpPostgresDatabase(info *RancherServiceInfo, backupPath string) error {
-	dumpPath := fmt.Sprintf("/backup/dump_%s_%s.sql", info.rancherId, info.rancherName)
-	dumpCommand := fmt.Sprintf("pg_dumpall -h %s -U postgres --clean -f %s", info.hostname, dumpPath)
+func dumpPostgresDatabase(info *RancherServiceInfo, backupPath string, dumpPath string) error {
+	dumpCommand := fmt.Sprintf("pg_dumpall -h %s -U postgres --clean -f %s", info.ip, dumpPath)
 
 	if err := makeDump(dumpCommand, backupPath, info.dockerImage, []string{}); err != nil {
 		return err
@@ -97,7 +97,7 @@ func dumpRancherDatabase(rancherContainerId, backupPath string) error {
 	dumpPath := "/backup/rancher_dump.sql"
 	dumpCommand := "mysqldump -A -h db -u cattle -pcattle --result-file " + dumpPath
 
-	if err := makeDump(dumpCommand, backupPath, "mysql", []string{rancherContainerId+":db"}); err != nil {
+	if err := makeDump(dumpCommand, backupPath, "mysql", []string{rancherContainerId + ":db"}); err != nil {
 		return err
 	}
 

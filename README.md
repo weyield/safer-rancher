@@ -12,7 +12,7 @@ run -e BACKUP_ROOT="/root/backup" -e RANCHER_URL="https://xxx/v2-beta" -e RANCHE
 
 ## Usage with the Go binary
 ### Compilation
-* Clone the repository in `$GOROOT/github.com/weyield/`
+* Clone the repository in `$GOROOT/src/github.com/weyield/`
 * go to the `rancher-safer` directory
 * run `go get .`
 * run `go build -o safer-rancher .`
