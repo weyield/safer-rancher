@@ -80,7 +80,7 @@ func main() {
 			}
 			backupLog += postgresInfo.String() + "\n"
 		}
-		if err := ioutil.WriteFile("/backup/backuplog.csv", []byte(backupLog), 0644); err != nil {
+		if err := ioutil.WriteFile(backupRoot+"/backuplog.csv", []byte(backupLog), 0644); err != nil {
 			fmt.Println("An error occured while writing the log file:\n" + err.Error())
 			return
 		}
